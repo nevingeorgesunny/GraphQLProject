@@ -6,7 +6,8 @@ plugins {
 
 group = 'com.graphql-java.tutorial'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -15,9 +16,17 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	//Thanks for using https://jar-download.com
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework:spring-webflux'
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
+
+	// https://projectlombok.org
+	compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
 
 tasks.named('test') {

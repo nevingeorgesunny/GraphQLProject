@@ -1,5 +1,8 @@
 type Query {
     bookById(id: ID): Book
+    bookById2(id: ID): Book
+    bookByIdFilter(filter: String,pagination : String): Book
+    bookByIdFilterWithObject(filter: BookFilter): Book
 }
 
 type Book {
@@ -8,6 +11,14 @@ type Book {
     pageCount: Int
     author: Author
 }
+
+input BookFilter {
+    id: String
+    name: String
+    pageCount: Int
+    someUUID: String
+}
+
 
 type Author {
     id: ID
