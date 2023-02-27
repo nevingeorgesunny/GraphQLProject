@@ -11,12 +11,15 @@ targetCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	implementation 'com.intuit.graphql:graphql-filter-java:1.0.1-SNAPSHOT'
 
 	//Thanks for using https://jar-download.com
 

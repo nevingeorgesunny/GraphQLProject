@@ -1,8 +1,17 @@
+
+
+
 type Query {
     bookById(id: ID): Book
     bookById2(id: ID): Book
     bookByIdFilter(filter: String,pagination : String): Book
     bookByIdFilterWithObject(filter: BookFilter): Book
+
+
+
+    searchAccounts(filter: AccountsFilter): [Accounts!]
+
+
 }
 
 type Book {
@@ -24,4 +33,48 @@ type Author {
     id: ID
     firstName: String
     lastName: String
+}
+
+
+
+
+
+################################################################################
+
+
+
+type Accounts {
+  id: ID
+  account_id: Int
+  limit: Int
+  products: [String]
+}
+
+
+input AccountsFilter {
+   account_id: IntExpression
+   limit: IntExpression
+
+   and: [AccountsFilter!]
+   or: [AccountsFilter!]
+   not: AccountsFilter
+}
+
+# Define String expression
+input StringExpression {
+   equals: String
+   contains: String
+   in: [String!]
+}
+
+
+# Define Int Expression
+input IntExpression {
+   eq: Int
+   gt: Int
+   gte: Int
+   lt: Int
+   lte: Int
+   in: [Int!]
+   between: [Int!]
 }
