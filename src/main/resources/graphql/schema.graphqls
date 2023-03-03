@@ -1,18 +1,22 @@
-
-
+scalar UUID
 
 type Query {
-    bookById(id: ID): Book
-    bookById2(id: ID): Book
-    bookByIdFilter(filter: String,pagination : String): Book
-    bookByIdFilterWithObject(filter: BookFilter): Book
+    helloWorld:String
 
 
+    getAllBooks:[Book]
 
-    searchAccounts(filter: AccountsFilter): [Accounts!]
+    bookById(id:String): Book
+    bookByIdValidations(id:String!): Book
+    bookByFilters(filters:BookFilter!): [Book]
+    bookByFiltersWithEnvVariable(filters:BookFilter!): [Book]
 
-
+    searchAccounts(filter: AccountsFilter,sort: AccountsSort, pagination: Pagination): [Accounts!]
 }
+
+
+
+##################### BOOK ####################################
 
 type Book {
     id: ID
@@ -21,14 +25,6 @@ type Book {
     author: Author
 }
 
-input BookFilter {
-    id: String
-    name: String
-    pageCount: Int
-    someUUID: String
-}
-
-
 type Author {
     id: ID
     firstName: String
@@ -36,28 +32,73 @@ type Author {
 }
 
 
+input BookFilter {
+    id: String
+    name: String
+    pageCount: Int
+    someUUID: String
+}
 
-
-
-################################################################################
-
-
+##############################################################
 
 type Accounts {
   id: ID
   account_id: Int
   limit: Int
   products: [String]
+  someUUID: UUID
+  sampleUserTestCaseSubmissions : [SampleUserTestCaseSubmissions]
+  nevin: Nevin
 }
 
+type SampleUserTestCaseSubmissions{
+    testCaseId: UUID
+    stdin: String
+    innerobj: Innerobj
+}
+
+type Nevin{
+    sunny: String
+}
+
+type Innerobj{
+    innermostobj: Innermostobj
+}
+
+type Innermostobj{
+    theQuick: String
+}
+
+######-------------------------------------------------------------------------------########
 
 input AccountsFilter {
    account_id: IntExpression
    limit: IntExpression
+   someUUID: UUIDExpression
+   sampleUserTestCaseSubmissions: SampleUserTestCaseSubmissionsFilter
+   nevin: NevinFilter
 
    and: [AccountsFilter!]
    or: [AccountsFilter!]
    not: AccountsFilter
+}
+
+input SampleUserTestCaseSubmissionsFilter{
+    testCaseId: UUIDExpression
+    stdin: StringExpression
+    innerobj: InnerobjFilter
+}
+
+input InnerobjFilter{
+    innermostobj: InnermostobjFilter
+}
+
+input InnermostobjFilter{
+    theQuick: StringExpression
+}
+
+input NevinFilter{
+    sunny: StringExpression
 }
 
 # Define String expression
@@ -67,6 +108,9 @@ input StringExpression {
    in: [String!]
 }
 
+input UUIDExpression {
+   equals: String
+}
 
 # Define Int Expression
 input IntExpression {
@@ -78,3 +122,71 @@ input IntExpression {
    in: [Int!]
    between: [Int!]
 }
+
+
+######-------------------------------------------------------------------------------########
+
+
+input AccountsSort{
+   account_id: Direction
+   limit: Direction
+   someUUID: Direction
+   sampleUserTestCaseSubmissions : SampleUserTestCaseSubmissionsSort
+   nevin: NevinSort
+}
+
+input SampleUserTestCaseSubmissionsSort{
+    testCaseId: Direction
+    stdin: Direction
+    innerobj: InnerobjSort
+
+}
+
+input InnerobjSort{
+    innermostobj: InnermostobjSort
+}
+
+input InnermostobjSort{
+     theQuick: Direction
+}
+
+
+input NevinSort{
+ sunny: Direction
+}
+
+enum Direction{
+    ASC,
+    DESC
+}
+
+
+######-------------------------------------------------------------------------------########
+
+input Pagination{
+    offset: Int
+    pageSize: Int
+}
+
+######-------------------------------------------------------------------------------########
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

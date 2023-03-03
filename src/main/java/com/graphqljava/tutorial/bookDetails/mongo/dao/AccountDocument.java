@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 import java.util.UUID;
 
+
 /**
  * @author nevinsunny
  * date 27/02/23
@@ -29,6 +30,62 @@ public class AccountDocument {
     private Integer account_id;
     private Integer limit;
     private List<String> products;
-//    private UUID someUUID;
     private String someString;
+    private UUID someUUID;
+    private List<SampleUserTestCaseSubmissions> sampleUserTestCaseSubmissions;
+    private Nevin nevin;
+
+
+    @Getter
+    @Setter
+    @ToString
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class SampleUserTestCaseSubmissions{
+        private UUID testCaseId;
+        private String stdin;
+        private Innerobj innerobj;
+
+
+
+        @Getter
+        @Setter
+        @ToString
+        @Builder
+        @NoArgsConstructor
+        @AllArgsConstructor
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private static class Innerobj{
+
+            private Innermostobj innermostobj;
+
+            @Getter
+            @Setter
+            @ToString
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            @JsonIgnoreProperties(ignoreUnknown = true)
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            private static class Innermostobj{
+                private String theQuick;
+            }
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private static class Nevin{
+        private Integer sunny;
+    }
 }

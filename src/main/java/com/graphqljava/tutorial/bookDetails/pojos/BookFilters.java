@@ -12,8 +12,12 @@ import java.util.UUID;
 
 
 @Setter
-@NoArgsConstructor
 public class BookFilters {
+
+    public BookFilters() {
+        int x = 1;
+    }
+
     private String id;
     private String name;
     private Integer pageCount;

@@ -1,27 +1,43 @@
 package com.graphqljava.tutorial.bookDetails;
 
+import com.graphqljava.tutorial.bookDetails.lib.SortExpression;
 import com.graphqljava.tutorial.bookDetails.mongo.dao.AccountDocument;
-import com.graphqljava.tutorial.bookDetails.mongo.repo.AccountRepository;
 import com.graphqljava.tutorial.bookDetails.pojos.BookFilters;
-import com.intuit.graphql.filter.client.ExpressionFormat;
-import com.intuit.graphql.filter.client.FilterExpression;
+import com.graphqljava.tutorial.bookDetails.pojos.MongoGraphQLFetchContext;
+import com.graphqljava.tutorial.bookDetails.pojos.OffsetLimitPageable;
+import com.graphqljava.tutorial.bookDetails.pojos.Pagination;
 import graphql.schema.DataFetchingEnvironment;
-import org.springframework.data.mongodb.core.query.Criteria;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class BookController {
 
-    private final AccountRepository accountRepository;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-    public BookController(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    @QueryMapping
+    public String helloWorld(){
+        return "helloWorld";
+    }
+
+    @QueryMapping
+    public List<Book> getAllBooks() {
+        return Arrays.asList(
+                new Book("book-1", "Harry Potter and the Philosopher's Stone", 223, new Author("author-1", "Joanne", "Rowling")),
+                new Book("book-2", "Moby Dick", 635, new Author("author-2", "Herman", "Melville")),
+                new Book("book-3", "Interview with the vampire", 371,  new Author("author-3", "Anne", "Rice"))
+        );
     }
 
     @QueryMapping
@@ -30,43 +46,40 @@ public class BookController {
     }
 
     @QueryMapping
-    public Book bookById2(@Argument String id) {
+    public Book bookByIdValidations(@Argument String id) {
         return Book.getById(id);
     }
 
+
     @QueryMapping
-    public Book bookByIdFilter(@Argument String filter,@Argument String pagination) {
-        return  Book.getById("book-1");
+    public List<Book> bookByFilters(@Argument BookFilters filters) {
+        return List.of(Book.getById("book-1"));
     }
 
     @QueryMapping
-    public Book bookByIdFilterWithObject(@Argument("filter") BookFilters filter, DataFetchingEnvironment dataFetchingEnvironment) {
-//        accountRepository.findAll();
-
-        return  Book.getById("book-1");
+    public List<Book> bookByFiltersWithEnvVariable(DataFetchingEnvironment dataFetchingEnvironment) {
+        return List.of(Book.getById("book-1"));
     }
 
-
-
+    @PreAuthorize("hasRole('SUNNY')")
     @QueryMapping
-    public List<AccountDocument> searchAccounts(DataFetchingEnvironment dataFetchingEnvironment){
+    public List<AccountDocument> searchAccounts(DataFetchingEnvironment dataFetchingEnvironment) {
+        MongoGraphQLFetchContext fetchContext = MongoGraphQLFetchContext.build(dataFetchingEnvironment);
 
-        FilterExpression.FilterExpressionBuilder builder = FilterExpression.newFilterExpressionBuilder();
-        FilterExpression filterExpression = builder.args(dataFetchingEnvironment.getArguments())
-                .build();
-        Criteria expression = filterExpression.getExpression(ExpressionFormat.MONGO);
+        Query query = new Query().addCriteria(fetchContext.getCriteria()).with(fetchContext.getSort());
+        return mongoTemplate
+                .find(query.with(getPageRequest(fetchContext.getPagination())), AccountDocument.class);
 
-
-
-
-
-
-
-        return null;
     }
 
-    @SchemaMapping
-    public Author author(Book book) {
-        return Author.getById(book.getAuthorId());
+
+    @NotNull
+    private OffsetLimitPageable getPageRequest(Pagination pagination) {
+        if (pagination != null && pagination.getOffset() != null && pagination.getPageSize() != null) {
+            return new OffsetLimitPageable(pagination.getOffset(), pagination.getPageSize());
+        } else {
+            return new OffsetLimitPageable(0, 10000);
+        }
+
     }
 }
