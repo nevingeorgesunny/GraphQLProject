@@ -14,6 +14,8 @@ repositories {
 	mavenLocal()
 }
 
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
@@ -35,6 +37,20 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 }
+
+bootJar {
+	baseName = "SpringBoot"
+	version =  '0.0.1'
+}
+
+
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.foo.bar.MainClass'
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
