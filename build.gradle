@@ -21,7 +21,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 
-	implementation 'com.intuit.graphql:graphql-filter-java:1.0.1-SNAPSHOT'
+	implementation 'com.intuit.graphql:graphql-filter-java:1.0.2-SNAPSHOT'
 
 
 	// https://mvnrepository.com/artifact/com.auth0/jwks-rsa
