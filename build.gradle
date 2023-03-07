@@ -24,21 +24,12 @@ dependencies {
 	implementation 'com.intuit.graphql:graphql-filter-java:1.0.1-SNAPSHOT'
 
 
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
-//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.3'
+	// https://mvnrepository.com/artifact/com.auth0/jwks-rsa
+	implementation group: 'com.auth0', name: 'jwks-rsa', version: '0.3.0'
 
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-
-
-	implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.8.1'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
 
-
-
-
-	//Thanks for using https://jar-download.com
-
-	implementation group: 'org.springframework', name: 'spring-aspects', version: '3.2.4.RELEASE'
 
 
 	// https://projectlombok.org

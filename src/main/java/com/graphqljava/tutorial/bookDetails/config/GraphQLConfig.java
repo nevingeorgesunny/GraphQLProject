@@ -6,7 +6,6 @@ import graphql.schema.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import java.time.format.DateTimeParseException;
@@ -19,8 +18,6 @@ import java.util.UUID;
  */
 @Configuration
 public class GraphQLConfig {
-
-
 
     @Bean
     RuntimeWiringConfigurer configurer() {

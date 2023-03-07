@@ -1,6 +1,5 @@
 package com.graphqljava.tutorial.bookDetails;
 
-import com.graphqljava.tutorial.bookDetails.lib.SortExpression;
 import com.graphqljava.tutorial.bookDetails.mongo.dao.AccountDocument;
 import com.graphqljava.tutorial.bookDetails.pojos.BookFilters;
 import com.graphqljava.tutorial.bookDetails.pojos.MongoGraphQLFetchContext;
@@ -13,7 +12,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
@@ -21,13 +19,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class BookController {
+public class GraphQLController {
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @QueryMapping
-    public String helloWorld(){
+    public String helloWorld() {
         return "helloWorld";
     }
 
@@ -36,7 +34,7 @@ public class BookController {
         return Arrays.asList(
                 new Book("book-1", "Harry Potter and the Philosopher's Stone", 223, new Author("author-1", "Joanne", "Rowling")),
                 new Book("book-2", "Moby Dick", 635, new Author("author-2", "Herman", "Melville")),
-                new Book("book-3", "Interview with the vampire", 371,  new Author("author-3", "Anne", "Rice"))
+                new Book("book-3", "Interview with the vampire", 371, new Author("author-3", "Anne", "Rice"))
         );
     }
 
@@ -61,8 +59,9 @@ public class BookController {
         return List.of(Book.getById("book-1"));
     }
 
-    @PreAuthorize("hasRole('SUNNY')")
+
     @QueryMapping
+    @PreAuthorize("hasRole('ADMIN_NEVIN')")
     public List<AccountDocument> searchAccounts(DataFetchingEnvironment dataFetchingEnvironment) {
         MongoGraphQLFetchContext fetchContext = MongoGraphQLFetchContext.build(dataFetchingEnvironment);
 
