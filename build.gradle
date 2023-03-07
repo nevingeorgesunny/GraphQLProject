@@ -28,8 +28,7 @@ dependencies {
 	implementation group: 'com.auth0', name: 'jwks-rsa', version: '0.3.0'
 
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-
-
+	implementation 'org.springframework.boot:spring-boot-starter-test'
 
 
 	// https://projectlombok.org
