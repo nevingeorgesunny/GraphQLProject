@@ -61,7 +61,7 @@ public class GraphQLController {
 
 
     @QueryMapping
-    @PreAuthorize("hasRole('sales-dashboard')")
+    @PreAuthorize("hasRole('SALES_DASHBOARD')")
     public List<AccountDocument> searchAccounts(DataFetchingEnvironment dataFetchingEnvironment) {
         MongoGraphQLFetchContext fetchContext = MongoGraphQLFetchContext.build(dataFetchingEnvironment);
 
