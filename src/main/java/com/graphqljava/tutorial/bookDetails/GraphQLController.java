@@ -50,6 +50,7 @@ public class GraphQLController {
 
 
     @QueryMapping
+    @PreAuthorize("hasRole('OPS_DASHBOARD')")
     public List<Book> bookByFilters(@Argument BookFilters filters) {
         return List.of(Book.getById("book-1"));
     }
