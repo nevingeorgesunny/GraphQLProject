@@ -1,6 +1,7 @@
 package com.graphqljava.tutorial.bookDetails.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +20,17 @@ import java.util.*;
  * date 06/03/23
  * time 10:17 PM
  */
+@Slf4j
 public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
+        log.info("Request Received");
 
         ObjectMapper mapper = new ObjectMapper();
         String token = req.getHeader("Authorization");
+        log.info("With auth  {}",token);
+
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
