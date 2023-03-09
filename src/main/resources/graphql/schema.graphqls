@@ -1,8 +1,10 @@
 scalar UUID
+scalar String
+scalar Int
+scalar ID
 
 type Query {
     helloWorld:String
-
 
     getAllBooks:[Book]
 
@@ -13,8 +15,6 @@ type Query {
 
     searchAccounts(filter: AccountsFilter,sort: AccountsSort, pagination: Pagination): [Accounts!]
 }
-
-
 
 ##################### BOOK ####################################
 
@@ -39,7 +39,7 @@ input BookFilter {
     someUUID: String
 }
 
-##############################################################
+###########################  Accounts  ###################################
 
 type Accounts {
   id: ID
@@ -160,8 +160,6 @@ enum Direction{
     DESC
 }
 
-
-######-------------------------------------------------------------------------------########
 
 input Pagination{
     offset: Int
